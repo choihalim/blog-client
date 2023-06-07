@@ -18,10 +18,9 @@ function App() {
       .then(r => r.json())
       .then(setBlogs)
   }
-  
+
   return (
     <>
-      <h1>Blog</h1>
       <Home blogs={blogs} />
     </>
   )

@@ -1,0 +1,12 @@
+@media (min-width: 1400px) {
+    .navbar-expand-xxl .navbar-toggler {
+        display: block;
+    }
+}
+
+.sticky-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: 100px;
+}

@@ -1,0 +1,18 @@
+.blog-card-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+.blog-card {
+    margin-top: 2.5rem !important;
+    margin-bottom: 2.5rem !important;
+}
+
+.like-button {
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+}

@@ -16,3 +16,13 @@
     border: none;
     text-decoration: none;
 }
+
+.auth-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-info {
+    margin-right: 5rem;
+}

@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -7,7 +8,17 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import "../styles/navbar.css"
 
-function NavBar() {
+function NavBar({ updateUser, user }) {
+
+    const history = useHistory()
+
+    const handleLogout = () => {
+        fetch('/logout', { method: 'DELETE' })
+            .then(() => {
+                updateUser(null)
+                history.push('/authentication')
+            })
+    }
     return (
         <>
             <Navbar key='xxl' bg="light" expand='xxl' className="mb-3 sticky-navbar">
@@ -28,6 +39,7 @@ function NavBar() {
                             <Nav className="justify-content-end flex-grow-1 pe-3">
                                 <Nav.Link href="/">Home</Nav.Link>
                                 <Nav.Link href="/authentication">Login/Signup</Nav.Link>
+                                {user ? <Nav.Link onClick={handleLogout}>Logout</Nav.Link> : null}
                                 <NavDropdown
                                     title="Dropdown"
                                     id={`offcanvasNavbarDropdown-expand-xxl`}

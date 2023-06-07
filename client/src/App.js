@@ -8,11 +8,14 @@ import NotFound from "./components/NotFound";
 
 function App() {
 
-  const [blogs, setBlogs] = useState([])
-
   const proxy = 'http://127.0.0.1:5555'
+  const authURL = 'http://127.0.0.1:5555/authorize'
+
+  const [blogs, setBlogs] = useState([])
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
+    fetchUser()
     fetchBlogs()
   }
     , [])
@@ -21,6 +24,43 @@ function App() {
     fetch(proxy)
       .then(r => r.json())
       .then(setBlogs)
+  }
+
+  function fetchUser() {
+    fetch(authURL)
+      .then(r => r.json())
+      .then(user => {
+        if (!user.errors) {
+          updateUser(user)
+        }
+        else {
+          updateUser(null)
+        }
+      })
+  }
+
+  function updateUser(user) {
+    setUser(user)
+  }
+
+  if (!user) {
+    return (
+      <>
+        <NavBar updateUser={updateUser} user={user} />
+        <Switch>
+          <Route exact path='/authentication'>
+            <Authentication updateUser={updateUser} />
+          </Route>
+          {/* <Route exact path='/'>
+            <Home blogs={blogs} />
+          </Route> */}
+          <Route>
+            <NotFound />
+          </Route>
+        </Switch>
+
+      </>
+    )
   }
 
   return (

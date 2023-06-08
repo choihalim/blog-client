@@ -57,7 +57,9 @@ function NavBar({ updateUser, user }) {
                                     title="Dropdown"
                                     id={`offcanvasNavbarDropdown-expand-xxl`}
                                 >
-                                    <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+                                    <Nav.Link href="/create">
+                                        Post New Blog
+                                    </Nav.Link>
                                     <NavDropdown.Item href="#action4">
                                         Another action
                                     </NavDropdown.Item>

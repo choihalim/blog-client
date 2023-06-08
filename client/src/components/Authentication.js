@@ -11,7 +11,7 @@ import { useHistory } from 'react-router-dom'
 //     const initialState = {
 //         username: '',
 //         password: '',
-//         avatar: ''
+//         email: ''
 //     }
 
 //     const [signUp, setSignUp] = useState(false)
@@ -63,12 +63,17 @@ function Authentication({ updateUser }) {
     const initialState = {
         username: '',
         password: '',
-        avatar: ''
+        email: ''
     };
 
     const [signUp, setSignUp] = useState(false);
     const [formState, setFormState] = useState(initialState);
     const [fetching, setFetching] = useState(false); // Track fetching state
+    const [formErrors, setFormErrors] = useState(null)
+
+    const renderFormErrors = () => {
+        return 
+    }
 
     useEffect(() => {
         return () => {
@@ -91,7 +96,7 @@ function Authentication({ updateUser }) {
 
     const userLoginOrCreation = (e) => {
         e.preventDefault();
-
+        
         const postRequest = {
             method: 'POST',
             headers: {
@@ -107,12 +112,12 @@ function Authentication({ updateUser }) {
         fetch(signUp ? createAccountURL : loginURL, postRequest)
             .then((r) => r.json())
             .then((user) => {
-                if (user) {
+                if (!user.errors) {
                     updateUser(user)
                     history.push('/')
                     setFormState(initialState)
                 } else {
-                    console.log("error")
+                    setFormErrors(user.errors)
                 }
             })
             .catch((error) => {
@@ -132,6 +137,7 @@ function Authentication({ updateUser }) {
         <>
             <div className="auth-form">
                 <div className="auth-info">
+                    <h2 style={{ color: 'red' }}> {formErrors? renderFormErrors() : null}</h2>
                     <h2>Please Log in or Sign up!</h2>
                     <h2>{signUp ? 'Already a member?' : 'Not a member?'}</h2>
                     <Button variant="secondary" onClick={handleClick}>
@@ -153,12 +159,12 @@ function Authentication({ updateUser }) {
                                 />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Label>Avatar URL</Form.Label>
+                                <Form.Label>Email</Form.Label>
                                 <Form.Control
-                                    type="avatar"
-                                    name="avatar"
-                                    placeholder="Enter avatar URL"
-                                    value={formState.avatar}
+                                    type="email"
+                                    name="email"
+                                    placeholder="Enter email URL"
+                                    value={formState.email}
                                     onChange={changeFormState}
                                     required
                                 />

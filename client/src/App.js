@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import Home from "./components/Home";
-import BlogForm from "./components/BlogForm"
 import NavBar from "./components/NavBar"
 import Authentication from "./components/Authentication";
 import NotFound from "./components/NotFound";

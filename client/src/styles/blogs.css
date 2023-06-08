@@ -65,6 +65,7 @@
 
 #likes {
     float: right;
+}
 
 .auth-form {
     display: flex;

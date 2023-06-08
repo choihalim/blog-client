@@ -7,37 +7,32 @@ import NotFound from "./components/NotFound";
 
 
 function App() {
-
-  const proxy = 'http://127.0.0.1:5555'
-  const authURL = 'http://127.0.0.1:5555/authorize'
-
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
 
   useEffect(() => {
     fetchUser()
     fetchBlogs()
-  }
-    , [])
+  }, [])
 
   function fetchBlogs() {
-    fetch(proxy)
+    fetch('/home')
       .then(r => r.json())
       .then(setBlogs)
   }
 
   function fetchUser() {
-    fetch(authURL)
+    fetch('/authorize')
       .then(r => r.json())
       .then(user => {
         if (!user.errors) {
           updateUser(user)
+          console.log("working")
         }
-        else {
-          updateUser(null)
-        }
+        else updateUser(null)
       })
   }
+
 
   function updateUser(user) {
     setUser(user)
@@ -49,7 +44,7 @@ function App() {
         <NavBar updateUser={updateUser} user={user} />
         <Switch>
           <Route exact path='/authentication'>
-            <Authentication updateUser={updateUser} />
+            <Authentication updateUser={updateUser} fetchUser={fetchUser} />
           </Route>
           {/* <Route exact path='/'>
             <Home blogs={blogs} />
@@ -76,8 +71,8 @@ function App() {
         <Route path='/productions/:id'>
           <ProductionDetail handleEdit={handleEdit} deleteProduction={deleteProduction} />
         </Route> */}
-        <Route exact path='/authentication'>
-          <Authentication />
+        <Route exact path='/home'>
+          <Home blogs={blogs} />
         </Route>
         <Route exact path='/'>
           <Home blogs={blogs} />

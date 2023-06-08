@@ -11,7 +11,7 @@ import { useHistory } from 'react-router-dom'
 //     const initialState = {
 //         username: '',
 //         password: '',
-//         email: ''
+//         avatar: ''
 //     }
 
 //     const [signUp, setSignUp] = useState(false)
@@ -56,9 +56,7 @@ import { useHistory } from 'react-router-dom'
 //             })
 //     }
 function Authentication({ updateUser }) {
-    const history = useHistory();
-    const loginURL = 'http://127.0.0.1:5555/login';
-    const createAccountURL = 'http://127.0.0.1:5555/create_account';
+    const history = useHistory()
 
     const initialState = {
         username: '',
@@ -72,46 +70,33 @@ function Authentication({ updateUser }) {
     const [formErrors, setFormErrors] = useState(null)
 
     const renderFormErrors = () => {
-        return 
+        return formErrors.map(error => <>{error}</>)
     }
 
-    useEffect(() => {
-        return () => {
-            // Cleanup function
-            if (fetching) {
-                controller.abort(); // Cancel the fetch request
-            }
-        };
-    }, [fetching]);
-
-    const controller = new AbortController();
-
     const changeFormState = (e) => {
-        const { name, value } = e.target;
-        const updatedFormState = { ...formState, [name]: value };
-        setFormState(updatedFormState);
-    };
+        const { name, value } = e.target
+        const updateFormState = { ...formState, [name]: value }
+        setFormState(updateFormState)
+    }
 
-    const handleClick = () => setSignUp((signUp) => !signUp);
+    const handleClick = () => setSignUp((signUp) => !signUp)
 
     const userLoginOrCreation = (e) => {
         e.preventDefault();
-        
+
         const postRequest = {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
                 'accept': 'application/json'
             },
-            body: JSON.stringify(formState),
-            signal: controller.signal // Pass the signal to the fetch request
-        };
+            body: JSON.stringify(formState)
+        }
 
-        setFetching(true); // Start fetching
 
-        fetch(signUp ? createAccountURL : loginURL, postRequest)
-            .then((r) => r.json())
-            .then((user) => {
+        fetch(signUp ? '/create_account' : '/login', postRequest)
+            .then(r => r.json())
+            .then(user => {
                 if (!user.errors) {
                     updateUser(user)
                     history.push('/')
@@ -120,24 +105,13 @@ function Authentication({ updateUser }) {
                     setFormErrors(user.errors)
                 }
             })
-            .catch((error) => {
-                if (error.name === 'AbortError') {
-                    console.log('Fetch aborted')
-                } else {
-                    console.log('Fetch error:', error)
-                }
-            })
-            .finally(() => {
-                setFetching(false) // Fetching completed
-            });
-    };
-
+    }
 
     return (
         <>
             <div className="auth-form">
                 <div className="auth-info">
-                    <h2 style={{ color: 'red' }}> {formErrors? renderFormErrors() : null}</h2>
+                    <h2 style={{ color: 'red' }}> {formErrors ? renderFormErrors() : null}</h2>
                     <h2>Please Log in or Sign up!</h2>
                     <h2>{signUp ? 'Already a member?' : 'Not a member?'}</h2>
                     <Button variant="secondary" onClick={handleClick}>
@@ -181,17 +155,6 @@ function Authentication({ updateUser }) {
                                     required
                                 />
                             </Form.Group>
-                            {/* <Form.Group className="mb-3" controlId="formBasicPassword">
-                                <Form.Label>Confirm Password</Form.Label>
-                                <Form.Control
-                                    type="password"
-                                    name="password"
-                                    placeholder="Password"
-                                    value={formState.c_password}
-                                    onChange={changeFormState}
-                                    required
-                                />
-                            </Form.Group> */}
                         </div>
                         :
                         <div>
@@ -219,7 +182,6 @@ function Authentication({ updateUser }) {
                                 />
                             </Form.Group>
                         </div>}
-
                     <Form.Group className="mb-3" controlId="formBasicCheckbox">
                         <Form.Check type="checkbox" label="I'm not a robot" required />
                     </Form.Group>

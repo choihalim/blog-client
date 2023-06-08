@@ -1,4 +1,5 @@
 import { useHistory } from 'react-router-dom';
+import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -11,22 +12,34 @@ import "../styles/navbar.css"
 function NavBar({ updateUser, user }) {
 
     const history = useHistory()
+    const [showOffcanvas, setShowOffcanvas] = useState(false);
+
+    const handleOffcanvasClose = () => {
+        setShowOffcanvas(false);
+    };
+
+    const handleOffcanvasToggle = () => {
+        setShowOffcanvas((prevState) => !prevState);
+    };
 
     const handleLogout = () => {
         fetch('/logout', { method: 'DELETE' })
             .then(() => {
                 updateUser(null)
                 history.push('/authentication')
+                handleOffcanvasClose()
             })
     }
     return (
         <>
             <Navbar key='xxl' bg="light" expand='xxl' className="mb-3 sticky-navbar">
                 <Container fluid>
-                    <Navbar.Brand href="#">Blog</Navbar.Brand>
-                    <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-xxl`} />
+                    <Navbar.Brand href="/home">Blog</Navbar.Brand>
+                    <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-xxl`} onClick={handleOffcanvasToggle} />
                     <Navbar.Offcanvas
                         id={`offcanvasNavbar-expand-xxl`}
+                        show={showOffcanvas}
+                        onHide={handleOffcanvasClose}
                         aria-labelledby={`offcanvasNavbarLabel-expand-xxl`}
                         placement="end"
                     >
@@ -38,7 +51,7 @@ function NavBar({ updateUser, user }) {
                         <Offcanvas.Body>
                             <Nav className="justify-content-end flex-grow-1 pe-3">
                                 <Nav.Link href="/home">Home</Nav.Link>
-                                <Nav.Link href="/authentication">Login/Signup</Nav.Link>
+                                {user ? null : <Nav.Link href="/authentication">Login/Signup</Nav.Link>}
                                 {user ? <Nav.Link onClick={handleLogout}>Logout</Nav.Link> : null}
                                 <NavDropdown
                                     title="Dropdown"

@@ -60,7 +60,7 @@ function App() {
 
   return (
     <>
-      <NavBar />
+      <NavBar updateUser={updateUser} user={user} />
       <Switch>
         {/* <Route path='/productions/new'>
           <ProductionForm addProduction={addProduction} />

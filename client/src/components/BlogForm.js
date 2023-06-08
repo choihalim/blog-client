@@ -26,7 +26,7 @@ function BlogForm({ user }) {
         const blogData = {
             title: title,
             body: body,
-            type: blogType,
+            blog_type: blogType,
             tags: tags.split(",").map((tag) => tag.trim()), // Convert tags to an array of trimmed tags
         };
 
@@ -94,7 +94,10 @@ function BlogForm({ user }) {
                             >
                                 <option value="">Select a type</option>
                                 <option value="Personal">Personal</option>
-                                <option value="Educational">Educational</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Education">Education</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Business">Business</option>
                                 <option value="Entertainment">Entertainment</option>
                             </select>
                         </div>

@@ -5,11 +5,15 @@ import BlogForm from "./components/BlogForm"
 import NavBar from "./components/NavBar"
 import Authentication from "./components/Authentication";
 import NotFound from "./components/NotFound";
+import BlogForm from "./components/BlogForm";
+import BlogDetail from "./components/BlogDetail";
 
 
 function App() {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     fetchUser()
@@ -19,7 +23,10 @@ function App() {
   function fetchBlogs() {
     fetch('/home')
       .then(r => r.json())
-      .then(setBlogs)
+      .then(data => {
+        setBlogs(data)
+        setLoading(false)
+      })
   }
 
   function fetchUser() {
@@ -32,11 +39,17 @@ function App() {
         }
         else updateUser(null)
       })
+      .finally(() => setLoading(false))
   }
 
 
   function updateUser(user) {
     setUser(user)
+  }
+
+  if (loading) {
+    // Render a loading state component or spinner while data is being fetched
+    return <></>;
   }
 
   if (!user) {
@@ -50,9 +63,7 @@ function App() {
           {/* <Route exact path='/'>
             <Home blogs={blogs} />
           </Route> */}
-          <Route>
-            <NotFound />
-          </Route>
+          <Route component={NotFound} />
         </Switch>
 
       </>
@@ -78,12 +89,16 @@ function App() {
         <Route exact path='/home'>
           <Home blogs={blogs} />
         </Route>
+        <Route exact path='/:username/:id'>
+          <BlogDetail />
+        </Route>
+        <Route exact path='/:username'>
+          <BlogDetail />
+        </Route>
         <Route exact path='/'>
           <Home blogs={blogs} />
         </Route>
-        <Route>
-          <NotFound />
-        </Route>
+        <Route component={NotFound} />
       </Switch>
     </>
   )

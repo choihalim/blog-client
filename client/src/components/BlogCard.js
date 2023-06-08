@@ -4,7 +4,7 @@ import Nav from "react-bootstrap/Nav";
 import "../styles/blogs.css";
 
 function BlogCard({ blog }) {
-    const { title, type, body, tags, likes, created_at, username } = blog;
+    const { id, title, type, body, tags, likes, created_at, username } = blog;
 
     return (
         <div className="blog-card-div">
@@ -12,7 +12,7 @@ function BlogCard({ blog }) {
                 <Card.Header className="card-title">
                     <div className="title-element">
                         <Nav.Item>
-                            <Nav.Link href="#disabled" disabled>
+                            <Nav.Link href={`/${username}/${id}`}>
                                 <h2>{title}</h2>
                             </Nav.Link>
                         </Nav.Item>
@@ -26,8 +26,11 @@ function BlogCard({ blog }) {
                     </div>
                     <div className="title-element">
                         <Nav.Item>
-                            <Nav.Link href="#disabled" disabled>
-                                Author: {username}
+                            <Nav.Link href="#disabled" disabled style={{ display: 'inline-block', marginRight: '-25px' }}>
+                                Author:
+                            </Nav.Link>
+                            <Nav.Link href={`/${username}`} style={{ display: 'inline-block' }}>
+                                {username}
                             </Nav.Link>
                         </Nav.Item>
                     </div>

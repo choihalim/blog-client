@@ -71,6 +71,9 @@ function App() {
         <Route path='/productions/:id'>
           <ProductionDetail handleEdit={handleEdit} deleteProduction={deleteProduction} />
         </Route> */}
+        <Route exact path='/create'>
+          <BlogForm user={user} />
+        </Route>
         <Route exact path='/home'>
           <Home blogs={blogs} />
         </Route>

@@ -5,7 +5,6 @@ function Home({ blogs }) {
 
     return (
         <>
-            <h1>Home Page</h1>
             <BlogContainer blogs={blogs} />
         </>
     )

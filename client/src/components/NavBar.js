@@ -53,22 +53,29 @@ function NavBar({ updateUser, user }) {
                                 <Nav.Link href="/home">Home</Nav.Link>
                                 {user ? null : <Nav.Link href="/authentication">Login/Signup</Nav.Link>}
                                 {user ? <Nav.Link onClick={handleLogout}>Logout</Nav.Link> : null}
-                                <NavDropdown
-                                    title="Dropdown"
-                                    id={`offcanvasNavbarDropdown-expand-xxl`}
-                                >
-                                    <Nav.Link href="/create">
-                                        Post New Blog
-                                    </Nav.Link>
-                                    <NavDropdown.Item href="#action4">
-                                        Another action
-                                    </NavDropdown.Item>
-                                    <NavDropdown.Divider />
-                                    <NavDropdown.Item href="#action5">
-                                        Something else here
-                                    </NavDropdown.Item>
-                                </NavDropdown>
+                                {user ?
+                                    <NavDropdown
+                                        title="User Actions"
+                                        id={`offcanvasNavbarDropdown-expand-xxl`}
+                                    >
+                                        <NavDropdown.Item href="/create">
+                                            Post New Blog
+                                        </NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                        <NavDropdown.Item href={`/${user.username}`}>
+                                            View Your Blogs
+                                        </NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                        <NavDropdown.Item href="#action5">
+                                            Something else here
+                                        </NavDropdown.Item>
+                                    </NavDropdown>
+                                    :
+                                    null
+                                }
                             </Nav>
+                            <br></br>
+                            <NavDropdown.Divider />
                             <Form className="d-flex">
                                 <Form.Control
                                     type="search"

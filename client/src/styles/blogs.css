@@ -76,3 +76,11 @@
 .auth-info {
     margin-right: 5rem;
 }
+
+.zero-blog-msg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 80vh;
+}

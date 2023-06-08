@@ -37,7 +37,7 @@ function NavBar({ updateUser, user }) {
                         </Offcanvas.Header>
                         <Offcanvas.Body>
                             <Nav className="justify-content-end flex-grow-1 pe-3">
-                                <Nav.Link href="/">Home</Nav.Link>
+                                <Nav.Link href="/home">Home</Nav.Link>
                                 <Nav.Link href="/authentication">Login/Signup</Nav.Link>
                                 {user ? <Nav.Link onClick={handleLogout}>Logout</Nav.Link> : null}
                                 <NavDropdown

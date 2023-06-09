@@ -1,27 +1,35 @@
-import React from "react";
+import React, { useState } from "react"
 import { useParams } from "react-router-dom"
-import Card from "react-bootstrap/Card";
-import Nav from "react-bootstrap/Nav";
-import "../styles/blogs.css";
+import Card from "react-bootstrap/Card"
+import Nav from "react-bootstrap/Nav"
+import "../styles/blogs.css"
 
 function BlogCard({ blog }) {
-    const { id, title, type, body, tags, likes, created_at, username } = blog;
+    const { id, title, type, body, tags, likes, created_at, username } = blog
     const params = useParams()
 
+    const [likedPosts, setLikedPosts] = useState(new Set())
+    const [updatedLikes, setUpdatedLikes] = useState(likes)
+
     const handleLikeClick = () => {
-        console.log("click")
-        const updatedLikes = likes + 1;
-        const updateObj = {
-            likes: updatedLikes,
-        };
-        fetch(`/${username}/${id}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(updateObj),
-        })
-            .then((response) => response.json())
+        if (!likedPosts.has(id)) {
+            const updatedLikes = likes + 1
+            const updateObj = {
+                likes: updatedLikes,
+            }
+            fetch(`/like/${username}/${id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(updateObj),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    setLikedPosts(new Set(likedPosts.add(id)))
+                    setUpdatedLikes(updatedLikes + 1)
+                })
+        }
     }
 
     function isPostById() {
@@ -32,21 +40,43 @@ function BlogCard({ blog }) {
         else return false
     }
 
+    const postLiked = () => {
+        if (likedPosts.has(id)) {
+            return (
+                <Nav.Link href="#disabled" disabled>
+                    {updatedLikes}
+                    <button className="like-button" >
+                        ❤️
+                    </button>
+                </Nav.Link>
+            )
+        } else {
+            return (
+                <Nav.Link href="#disabled" >
+                    {updatedLikes}
+                    <button className="like-button" onClick={handleLikeClick}>
+                        ❤️
+                    </button>
+                </Nav.Link>
+            )
+        }
+    }
+
     const renderLink = () => {
         if (isPostById()) {
             return (
                 <Nav.Link href={`/${username}/${id}`} disabled>
                     <h2>{title}</h2>
                 </Nav.Link>
-            );
+            )
         } else {
             return (
                 <Nav.Link href={`/${username}/${id}`}>
                     <h2>{title}</h2>
                 </Nav.Link>
-            );
+            )
         }
-    };
+    }
 
     return (
         <div className="blog-card-div">
@@ -90,12 +120,7 @@ function BlogCard({ blog }) {
                     </div>
                     <div className="title-element" id="likes">
                         <Nav.Item>
-                            <Nav.Link href="#disabled" disabled>
-                                {likes}
-                                <button className="like-button" onClick={handleLikeClick}>
-                                    ❤️
-                                </button>
-                            </Nav.Link>
+                            {postLiked()}
                         </Nav.Item>
                     </div>
                 </Card.Header>

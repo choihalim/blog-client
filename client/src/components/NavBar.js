@@ -34,7 +34,7 @@ function NavBar({ updateUser, user }) {
         <>
             <Navbar key='xxl' bg="light" expand='xxl' className="mb-3 sticky-navbar">
                 <Container fluid>
-                    <Navbar.Brand href="/home">Blog</Navbar.Brand>
+                    <Navbar.Brand href="/home">H&R's Super Amazing Blogging Platform</Navbar.Brand>
                     <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-xxl`} onClick={handleOffcanvasToggle} />
                     <Navbar.Offcanvas
                         id={`offcanvasNavbar-expand-xxl`}

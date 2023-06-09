@@ -6,6 +6,22 @@ import "../styles/blogs.css";
 function BlogCard({ blog }) {
     const { id, title, type, body, tags, likes, created_at, username } = blog;
 
+    const handleLikeClick = () => {
+        console.log("click")
+        const updatedLikes = likes + 1;
+        const updateObj = {
+            likes: updatedLikes,
+        };
+        fetch(`/${username}/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updateObj),
+        })
+            .then((response) => response.json())
+    };
+
     return (
         <div className="blog-card-div">
             <Card className="blog-card" border="secondary">
@@ -51,7 +67,10 @@ function BlogCard({ blog }) {
                     <div className="title-element" id="likes">
                         <Nav.Item>
                             <Nav.Link href="#disabled" disabled>
-                                {likes} <button className="like-button">❤️</button>
+                                {likes}
+                                <button className="like-button" onClick={handleLikeClick}>
+                                    ❤️
+                                </button>
                             </Nav.Link>
                         </Nav.Item>
                     </div>

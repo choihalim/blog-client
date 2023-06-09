@@ -1,11 +1,16 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form"
+import Button from "react-bootstrap/Button";
 
 function BlogForm({ user }) {
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
     const [tags, setTags] = useState("");
     const [blogType, setBlogType] = useState("");
+
+    const history = useHistory()
 
     const handleTitleChange = (e) => {
         setTitle(e.target.value);
@@ -40,7 +45,7 @@ function BlogForm({ user }) {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data); // Handle the response data from the server
-                
+                history.push(`/${user.username}`)
                 setTitle("");
                 setBody("");
                 setTags("");
@@ -55,41 +60,42 @@ function BlogForm({ user }) {
         <div className="blog-card-div">
             <Card id="new-post-card" border="secondary">
                 <Card.Body>
-                    <form onSubmit={handleSubmit}>
-                        <div>
-                            <label htmlFor="title">Title</label>
-                            <input
+                    <Form onSubmit={handleSubmit} style={{ width: "1000px" }}>
+                        <Form.Group controlId="title">
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control
                                 type="text"
-                                id="title"
                                 value={title}
                                 onChange={handleTitleChange}
+                                style={{ width: "500px" }}
                                 required
                             />
-                        </div>
-                        <div>
-                            <label htmlFor="body">Body</label>
-                            <textarea
-                                id="body"
+                        </Form.Group>
+                        <Form.Group controlId="body">
+                            <Form.Label>Body</Form.Label>
+                            <Form.Control
+                                as="textarea"
                                 value={body}
                                 onChange={handleBodyChange}
+                                style={{ height: "550px" }}
                                 required
-                            ></textarea>
-                        </div>
-                        <div>
-                            <label htmlFor="tags">Tags</label>
-                            <input
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="tags">
+                            <Form.Label>Tags</Form.Label>
+                            <Form.Control
                                 type="text"
-                                id="tags"
                                 value={tags}
                                 onChange={handleTagsChange}
                             />
-                        </div>
-                        <div>
-                            <label htmlFor="blogType">Blog Type</label>
-                            <select
-                                id="blogType"
+                        </Form.Group>
+                        <Form.Group controlId="blogType">
+                            <Form.Label>Blog Type</Form.Label>
+                            <Form.Control
+                                as="select"
                                 value={blogType}
                                 onChange={handleBlogTypeChange}
+                                style={{ width: "250px", marginBottom: "10px" }}
                                 required
                             >
                                 <option value="">Select a type</option>
@@ -99,10 +105,14 @@ function BlogForm({ user }) {
                                 <option value="Finance">Finance</option>
                                 <option value="Business">Business</option>
                                 <option value="Entertainment">Entertainment</option>
-                            </select>
+                            </Form.Control>
+                        </Form.Group>
+                        <div className="d-flex justify-content-end">
+                            <Button variant="primary" type="submit" style={{ width: "120px", height: "40px"}}>
+                                Create Blog
+                            </Button>
                         </div>
-                        <button type="submit">Create Blog</button>
-                    </form>
+                    </Form>
                 </Card.Body>
             </Card>
         </div>

@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom"
 import Card from "react-bootstrap/Card";
 import Nav from "react-bootstrap/Nav";
 import "../styles/blogs.css";
@@ -20,6 +21,31 @@ function BlogCard({ blog }) {
             body: JSON.stringify(updateObj),
         })
             .then((response) => response.json())
+
+    const params = useParams()
+
+    function isPostById() {
+        if (params.id) {
+            console.log(params)
+            return true
+        }
+        else return false
+    }
+
+    const renderLink = () => {
+        if (isPostById()) {
+            return (
+                <Nav.Link href={`/${username}/${id}`} disabled>
+                    <h2>{title}</h2>
+                </Nav.Link>
+            );
+        } else {
+            return (
+                <Nav.Link href={`/${username}/${id}`}>
+                    <h2>{title}</h2>
+                </Nav.Link>
+            );
+        }
     };
 
     return (
@@ -28,9 +54,7 @@ function BlogCard({ blog }) {
                 <Card.Header className="card-title">
                     <div className="title-element">
                         <Nav.Item>
-                            <Nav.Link href={`/${username}/${id}`}>
-                                <h2>{title}</h2>
-                            </Nav.Link>
+                            {renderLink()}
                         </Nav.Item>
                     </div>
                     <div className="title-element">

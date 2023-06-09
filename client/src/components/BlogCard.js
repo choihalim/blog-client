@@ -13,7 +13,7 @@ function BlogCard({ blog }) {
 
     const handleLikeClick = () => {
         if (!likedPosts.has(id)) {
-            const updatedLikes = likes + 1
+            setUpdatedLikes(likes + 1)
             const updateObj = {
                 likes: updatedLikes,
             }

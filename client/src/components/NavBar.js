@@ -13,14 +13,26 @@ function NavBar({ updateUser, user }) {
 
     const history = useHistory()
     const [showOffcanvas, setShowOffcanvas] = useState(false);
+    const [search, setSearch] = useState('');
 
     const handleOffcanvasClose = () => {
         setShowOffcanvas(false);
-    };
+    }
 
     const handleOffcanvasToggle = () => {
         setShowOffcanvas((prevState) => !prevState);
-    };
+    }
+
+    const handleSearchChange = (e) => {
+        setSearch(e.target.value);
+    }
+
+    const handleSearchSubmit = () => {
+        if (search.trim() !== '') {
+            history.push(`/${search}`)
+            setSearch('')
+        }
+    }
 
     const handleLogout = () => {
         fetch('/logout', { method: 'DELETE' })
@@ -76,14 +88,16 @@ function NavBar({ updateUser, user }) {
                             </Nav>
                             <br></br>
                             <NavDropdown.Divider />
-                            <Form className="d-flex">
+                            <Form className="d-flex" onSubmit={handleSearchSubmit}>
                                 <Form.Control
                                     type="search"
-                                    placeholder="Search"
+                                    placeholder="Search for a user..."
                                     className="me-2"
                                     aria-label="Search"
+                                    value={search}
+                                    onChange={handleSearchChange}
                                 />
-                                <Button variant="outline-success">Search</Button>
+                                <Button variant="outline-success" type="submit">Search</Button>
                             </Form>
                         </Offcanvas.Body>
                     </Navbar.Offcanvas>

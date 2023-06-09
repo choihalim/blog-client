@@ -108,7 +108,7 @@ function BlogForm({ user }) {
                             </Form.Control>
                         </Form.Group>
                         <div className="d-flex justify-content-end">
-                            <Button variant="primary" type="submit" style={{ width: "120px", height: "40px"}}>
+                            <Button variant="success" type="submit" style={{ width: "120px", height: "40px"}}>
                                 Create Blog
                             </Button>
                         </div>

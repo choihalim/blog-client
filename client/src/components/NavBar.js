@@ -79,7 +79,7 @@ function NavBar({ updateUser, user }) {
                                         </NavDropdown.Item>
                                         <NavDropdown.Divider />
                                         <NavDropdown.Item href="#action5">
-                                            Something else here
+                                            Edit a Blog
                                         </NavDropdown.Item>
                                     </NavDropdown>
                                     :

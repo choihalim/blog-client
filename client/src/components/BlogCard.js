@@ -6,6 +6,7 @@ import "../styles/blogs.css";
 
 function BlogCard({ blog }) {
     const { id, title, type, body, tags, likes, created_at, username } = blog;
+    const params = useParams()
 
     const handleLikeClick = () => {
         console.log("click")
@@ -21,8 +22,7 @@ function BlogCard({ blog }) {
             body: JSON.stringify(updateObj),
         })
             .then((response) => response.json())
-
-    const params = useParams()
+    }
 
     function isPostById() {
         if (params.id) {
@@ -107,7 +107,8 @@ function BlogCard({ blog }) {
                 </Card.Body>
             </Card>
         </div>
-    );
+    )
 }
 
-export default BlogCard;
+
+export default BlogCard

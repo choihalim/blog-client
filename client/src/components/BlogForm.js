@@ -27,7 +27,7 @@ function BlogForm({ user }) {
             title: title,
             body: body,
             blog_type: blogType,
-            tags: tags.split(",").map((tag) => tag.trim()), // Convert tags to an array of trimmed tags
+            tags: tags
         };
 
         fetch(`/create/${user.username}`, {

@@ -41,6 +41,13 @@ function App() {
       .finally(() => setLoading(false))
   }
 
+  function handleDeleteBlog(blogId) {
+    const updatedBlogs = blogs.filter((blog) => blog.id !== blogId);
+    setBlogs(updatedBlogs);
+  }
+
+
+  console.log(user)
 
   function updateUser(user) {
     setUser(user)
@@ -59,9 +66,6 @@ function App() {
           <Route exact path='/authentication'>
             <Authentication updateUser={updateUser} fetchUser={fetchUser} />
           </Route>
-          {/* <Route exact path='/'>
-            <Home blogs={blogs} />
-          </Route> */}
           <Route component={NotFound} />
         </Switch>
 
@@ -73,20 +77,11 @@ function App() {
     <>
       <NavBar updateUser={updateUser} user={user} />
       <Switch>
-        {/* <Route path='/productions/new'>
-          <ProductionForm addProduction={addProduction} />
-        </Route>
-        <Route path='/productions/edit/:id'>
-          <ProductionEdit updateProduction={updateProduction} productionEdit={productionEdit} />
-        </Route>
-        <Route path='/productions/:id'>
-          <ProductionDetail handleEdit={handleEdit} deleteProduction={deleteProduction} />
-        </Route> */}
         <Route exact path='/create'>
           <BlogForm user={user} />
         </Route>
         <Route exact path='/home'>
-          <Home blogs={blogs} />
+          <Home blogs={blogs} handleDeleteBlog={handleDeleteBlog} currentUser={user} />
         </Route>
         <Route exact path='/:username/:id'>
           <BlogDetail />
@@ -95,7 +90,7 @@ function App() {
           <BlogDetail />
         </Route>
         <Route exact path='/'>
-          <Home blogs={blogs} />
+          <Home blogs={blogs} handleDeleteBlog={handleDeleteBlog} currentUser={user} />
         </Route>
         <Route component={NotFound} />
       </Switch>

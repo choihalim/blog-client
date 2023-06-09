@@ -1,11 +1,16 @@
-import React, { useEffect } from "react"
 import BlogContainer from "./BlogContainer"
 
-function Home({ blogs }) {
+function Home({ blogs, handleDeleteBlog, currentUser }) {
 
+
+    // console.log(currentUser)
     return (
         <>
-            <BlogContainer blogs={blogs} />
+            <BlogContainer
+                blogs={blogs}
+                handleDeleteBlog={handleDeleteBlog}
+                currentUser={currentUser}
+            />
         </>
     )
 }

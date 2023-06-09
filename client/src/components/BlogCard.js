@@ -4,13 +4,16 @@ import Card from "react-bootstrap/Card"
 import Nav from "react-bootstrap/Nav"
 import "../styles/blogs.css"
 
-function BlogCard({ blog }) {
+function BlogCard({ blog, handleDeleteBlog, currentUser }) {
     const { id, title, type, body, tags, likes, created_at, username } = blog
     const params = useParams()
 
     const [likedPosts, setLikedPosts] = useState(new Set())
     const [updatedLikes, setUpdatedLikes] = useState(likes)
 
+
+
+    // console.log(currentUser)
     const handleLikeClick = () => {
         if (!likedPosts.has(id)) {
             setUpdatedLikes(likes + 1)
@@ -31,6 +34,38 @@ function BlogCard({ blog }) {
                 })
         }
     }
+
+    const handleDeleteClick = () => {
+        fetch(`/posts/${id}`, {
+            method: "DELETE",
+        })
+            .then((response) => {
+                if (response.ok) {
+                    handleDeleteBlog(id)
+                    console.log("Post deleted successfully");
+                } else {
+                    console.log("Failed to delete post");
+                }
+            })
+            .catch((error) => {
+                console.log("Error deleting post:", error);
+            });
+    };
+
+    const renderDeleteButton = () => {
+        if (currentUser === username) {
+            // console.log(currentUser)
+            return (
+                <Nav.Item>
+                    <button className="delete-button" onClick={handleDeleteClick}>
+                        Delete
+                    </button>
+                </Nav.Item>
+            );
+        }
+        return null;
+    };
+
 
     function isPostById() {
         if (params.id) {
@@ -123,8 +158,10 @@ function BlogCard({ blog }) {
                             {postLiked()}
                         </Nav.Item>
                     </div>
+                    <div>
+                        {renderDeleteButton()}
+                    </div>
                 </Card.Header>
-
                 <Card.Body>
                     <Card.Text>
                         <span>{body}</span>
@@ -134,6 +171,5 @@ function BlogCard({ blog }) {
         </div>
     )
 }
-
 
 export default BlogCard

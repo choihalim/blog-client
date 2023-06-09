@@ -6,6 +6,7 @@ import Authentication from "./components/Authentication";
 import NotFound from "./components/NotFound";
 import BlogForm from "./components/BlogForm";
 import BlogDetail from "./components/BlogDetail";
+import BlogContainer from "./components/BlogContainer";
 
 
 function App() {
@@ -81,7 +82,7 @@ function App() {
           <BlogForm user={user} />
         </Route>
         <Route exact path='/home'>
-          <Home blogs={blogs} handleDeleteBlog={handleDeleteBlog} currentUser={user} />
+          <BlogContainer blogs={blogs} handleDeleteBlog={handleDeleteBlog} currentUser={user} />
         </Route>
         <Route exact path='/:username/:id'>
           <BlogDetail />
@@ -90,7 +91,7 @@ function App() {
           <BlogDetail />
         </Route>
         <Route exact path='/'>
-          <Home blogs={blogs} handleDeleteBlog={handleDeleteBlog} currentUser={user} />
+          <BlogContainer blogs={blogs} handleDeleteBlog={handleDeleteBlog} currentUser={user} />
         </Route>
         <Route component={NotFound} />
       </Switch>
